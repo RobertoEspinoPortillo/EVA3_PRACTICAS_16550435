@@ -1,0 +1,113 @@
+CREATE DEFINER=`root`@`localhost` FUNCTION `suma`(num1 int, num2 int) RETURNS int(11)
+BEGIN
+declare suma  int;
+set suma= num1+num2;
+
+RETURN suma;
+END
+
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `cuenta_clientes`() RETURNS int(11)
+BEGIN
+declare cont int;
+select count(*)  into cont from customers;
+RETURN cont;
+END
+
+
+Enter password: *******
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 15
+Server version: 8.0.13 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database evaluacion_3;
+Query OK, 1 row affected (0.28 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| evaluacion_3       |
+| information_schema |
+| mysql              |
+| northwind          |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+8 rows in set (0.00 sec)
+
+mysql> use evaluacion_3;
+Database changed
+mysql> uselect suma(3,3);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'uselect suma(3,3)' at line 1
+mysql> select suma (3,3);
++------------+
+| suma (3,3) |
++------------+
+|          6 |
++------------+
+1 row in set (0.00 sec)
+
+mysql> use northwind;
+Database changed
+mysql> select cuenta_clientes;
+ERROR 1054 (42S22): Unknown column 'cuenta_clientes' in 'field list'
+mysql> show tables;
++----------------------+
+| Tables_in_northwind  |
++----------------------+
+| categories           |
+| customercustomerdemo |
+| customerdemographics |
+| customers            |
+| employees            |
+| employeeterritories  |
+| order_details        |
+| orders               |
+| products             |
+| region               |
+| shippers             |
+| suppliers            |
+| territories          |
+| usstates             |
++----------------------+
+14 rows in set (0.00 sec)
+
+mysql> desc customers;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| CustomerID   | char(5)     | NO   | PRI | NULL    |       |
+| CompanyName  | varchar(40) | NO   | MUL | NULL    |       |
+| ContactName  | varchar(30) | YES  |     | NULL    |       |
+| ContactTitle | varchar(30) | YES  |     | NULL    |       |
+| Address      | varchar(60) | YES  |     | NULL    |       |
+| City         | varchar(15) | YES  | MUL | NULL    |       |
+| Region       | varchar(15) | YES  | MUL | NULL    |       |
+| PostalCode   | varchar(10) | YES  | MUL | NULL    |       |
+| Country      | varchar(15) | YES  |     | NULL    |       |
+| Phone        | varchar(24) | YES  |     | NULL    |       |
+| Fax          | varchar(24) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+11 rows in set (0.00 sec)
+
+
+mysql> select cuenta_clientes();
++-------------------+
+| cuenta_clientes() |
++-------------------+
+|                29 |
++-------------------+
+1 row in set (0.04 sec)
+
+

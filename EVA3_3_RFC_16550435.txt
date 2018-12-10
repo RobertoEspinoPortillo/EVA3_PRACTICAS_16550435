@@ -1,0 +1,63 @@
+CREATE DEFINER=`root`@`localhost` FUNCTION `genera_rfc`(nombre text, ap_pat text, ap_mat text, fecha date ) RETURNS text CHARSET utf8mb4
+BEGIN
+declare letras_pat text;
+declare letras_mat text;
+declare letras_nom text;
+declare annio int;
+declare mes int;
+declare dia int;
+declare clave text;
+declare mes_texto text;
+declare dia_texto text;
+
+set letras_pat= left(ap_pat, 2);
+set letras_nom=left(nombre, 1);
+if length(ap_mat)>0 then 
+set letras_mat = left (ap_mat , 1);
+else 
+set  letras_mat= "x";
+end if;
+
+set letras_nom = left (nombre, 1);
+set annio= year (fecha);
+set mes= month  (fecha);
+set dia= dayofmonth(fecha);
+
+if mes <10 then 
+set mes_texto = concat("0", mes );
+else set mes = concat("0", mes);
+
+end if;
+
+
+if dia <10 then 
+set dia_texto = concat("0", dia );
+else
+set dia_texto = concat("0", dia );
+end if;
+
+set clave= upper((concat( letras_mat, letras_nom, annio, mes_texto, dia_texto)));
+
+
+RETURN clave;
+END
+
+
+
+Enter password: *******
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 70
+Server version: 8.0.13 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use evaluacion_3;
+Database changed
+mysql> Select genera_rfc (`alberto`, `dominguez',`arikado', `1998-09-30`);
+

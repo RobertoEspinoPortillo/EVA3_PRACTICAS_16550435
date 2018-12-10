@@ -1,0 +1,102 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `conteo_clientes`(out cont int )
+BEGIN
+
+	select count(*) into cont
+
+	from customers;
+
+END
+
+
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `conteo_clientes_filtro`(in letra text, out conteo int)
+BEGIN
+
+    select count(*) into conteo
+    from customers
+
+    where companyname like concat(letra,'%');
+
+END
+
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `agregar_region`(in region text)
+BEGIN
+
+	declare clave int;
+
+	
+    select max(regionId) into clave from region;
+
+    
+    set clave = clave+1;
+
+    
+    insert into region values(clave, region);
+
+
+END
+
+
+
+
+
+
+Enter password: *******
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 57
+Server version: 8.0.13 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+
+
+mysql> call conteo_clientes(@conteo);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select @conteo;
++---------+
+| @conteo |
++---------+
+|      91 |
++---------+
+1 row in set (0.00 sec)
+
+mysql> call conteo_clientes_filtro('A',@conteo);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select @conteo;
++---------+
+| @conteo |
++---------+
+|       4 |
++---------+
+1 row in set (0.00 sec)
+
+
+mysql> call agregar_region('Chihuahua');
+Query OK, 1 row affected (0.31 sec)
+
+mysql> select * from region;
++----------+-------------------+
+| RegionID | RegionDescription |
++----------+-------------------+
+|        1 | Eastern           |
+|        2 | Western           |
+|        3 | Northern          |
+|        4 | Southern          |
+|        5 | Chihuahua         |
++----------+-------------------+
+5 rows in set (0.00 sec)
+
+mysql>
+
+
+
+
